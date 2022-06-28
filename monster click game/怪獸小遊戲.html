@@ -246,7 +246,7 @@
       </div>
     </div>
   </div>
-  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js'
     integrity='sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=='
     crossorigin='anonymous'></script>
@@ -285,7 +285,7 @@
 
       score = 0
       $('#text-score').text(score)
-      countdown = 10
+      countdown = 60
       $('#text-time').text(countdown)
 
       // 開始遊戲
@@ -325,10 +325,10 @@
           $('#screen img').remove()
           // 重新啟用遊戲按鈕
           $('#btn-start').attr('disabled', false)
-          Swal.fire ({
-            title:'遊戲結束',
-            text:`你總共得到${ score } 分`,
-            imageUrl:"./img/bye.png"
+          Swal.fire({
+            title: '遊戲結束',
+            text: `你總共得到${score} 分`,
+            imageUrl: "./img/bye.png"
           })
         }
       }, 1000)
