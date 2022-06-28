@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>怪獸小遊戲</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      height: 100vh;
+      background: url('./img/background.jpg') no-repeat center center/cover;
+    }
+
+    .container {
+      width: 100%;
+      height: 95%;
+      position: relative;
+      display: flex;
+      flex-flow: column;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      align-items: center;
+    }
+
+    #title {
+      width: 50%;
+      height: 25%;
+      background: url(./img/title.png);
+      background-size: 50% 100%;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    #tg {
+      width: 30%;
+      height: 70%;
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    #tz {
+      width: 20%;
+      height: 60%;
+      position: relative;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    #game {
+      width: 90%;
+      height: 75%;
+      position: relative;
+
+    }
+
+    #rule {
+      width: 20%;
+      height: 75%;
+      border-radius: 10px;
+      border: 10px inset rgba(0, 238, 255);
+      background: rgba(255, 255, 255, 0.7);
+      position: absolute;
+      top: 20%;
+      left: -5%;
+      transform: translate(5%, -20%);
+      font-size: 30px;
+      color: yellow;
+      text-shadow: 0 0 10px crimson;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 5px 10px 15px rgba(0, 238, 255, 0.1),
+        10px 15px 20px rgba(0, 238, 255, 0.3),
+        15px 20px 25px rgba(0, 238, 255, 0.5);
+    }
+
+    #screen {
+      width: 40%;
+      height: 50%;
+      position: absolute;
+      top: 10%;
+      left: 50%;
+      transform: translate(-50%, -10%);
+      background-image: url('./img/city.jpg');
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      background-position: center;
+      border-top: 10px solid green;
+      border-left: 10px solid green;
+      border-right: 10px solid green;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+      box-shadow: 5px 10px 15px rgba(0, 238, 255, 0.1),
+        10px 15px 20px rgba(0, 238, 255, 0.3),
+        15px 20px 25px rgba(0, 238, 255, 0.5);
+      cursor: url(./img/cursor.png) 50 50, auto;
+    }
+
+    #screen img {
+      position: absolute;
+      height: 20%;
+      /* 無法被選取 */
+      user-select: none;
+      /* 無法被拖曳 */
+      -webkit-user-drag: none;
+      -webkit-user-select: none;
+    }
+
+    .kevin,
+    .bone,
+    .blue-fire {
+      /* 忽略點擊事件 */
+      pointer-events: none;
+    }
+
+    .left {
+      width: 5%;
+      height: 80%;
+      background: black;
+      position: absolute;
+      left: 20%;
+      transform: skew(10deg);
+      z-index: 1;
+    }
+
+    .right {
+      width: 5%;
+      height: 80%;
+      background: black;
+      position: absolute;
+      left: 75%;
+      transform: skew(-10deg);
+      z-index: 1;
+    }
+
+    .center {
+      width: 100%;
+      height: 24%;
+      background: black;
+      position: absolute;
+      top: 76%;
+      border-top-left-radius: 50%;
+      border-top-right-radius: 50%;
+      z-index: 1;
+    }
+
+    .center::before {
+      content: '';
+      width: 60%;
+      height: 85%;
+      background-color: gainsboro;
+      position: absolute;
+      border-top-left-radius: 50%;
+      border-top-right-radius: 50%;
+      top: 100%;
+      left: 50%;
+      transform: translate(-50%, -100%);
+    }
+
+    .play {
+      width: 40%;
+      height: 40%;
+      position: absolute;
+      top: 90%;
+      left: 50%;
+      transform: translate(-50%, -90%);
+      background: black;
+      border-bottom: 10px solid green;
+      border-left: 10px solid green;
+      border-right: 10px solid green;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+      box-shadow: 5px 10px 5px rgba(0, 238, 255, 0.1),
+        10px 15px 10px rgba(0, 238, 255, 0.3),
+        15px 20px 15px rgba(0, 238, 255, 0.5);
+    }
+
+    .board {
+      width: 100%;
+      height: 100%;
+    }
+
+    #btn-start {
+      width: 20%;
+      height: 50%;
+      background-color: black;
+      color: aliceblue;
+      font-weight: bolder;
+      font-style: italic;
+      border-radius: 10px;
+      border: 3px solid rgba(0, 238, 255, 0.5);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    #btn-start:hover {
+      cursor: pointer;
+      box-shadow: 5px 5px 5px rgba(0, 238, 255, 0.1),
+        5px 5px 10px rgba(0, 238, 255, 0.3),
+        5px 5px 15px rgba(0, 238, 255, 0.5);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div id="title">
+      <img id="tg" src="./img/tg.png" alt="基多拉">
+      <img id="tz" src="./img/tz.png" alt="哥吉拉">
+    </div>
+    <div id="game">
+      <div id="rule">
+        <div>Highest Score: <span id="highscoretext">0</span> Points
+        </div>
+        <div>Score: <span id="text-score">0</span></div>
+        <div>Time: <span id="text-time">0</span>s</div>
+        <img src="./img/ghidorah.png" style="width: 20%; ">
+        <p>+ 1 Point</p>
+        <img src="./img/godzilla.png" style="width: 20%; ">
+        <p>- 1 Point</p>
+        <img src="./img/mothra.png" style="width: 20%;">
+        <p>-2 Point</p>
+      </div>
+      <div id="screen">
+        <div class="left"></div>
+        <div class="right"></div>
+        <div class="center">
+          <input type="button" value="START" id="btn-start">
+        </div>
+      </div>
+      <div class="play">
+        <img class="board" src="./img/board.png" alt="操作面板">
+      </div>
+    </div>
+  </div>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js'
+    integrity='sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=='
+    crossorigin='anonymous'></script>
+  <script>
+    let score = 0
+    let countdown = 0
+    let timer = 0
+
+    function move(ghidorah) {
+      const top = Math.round(Math.random() * 80) + '%'
+      const left = Math.round(Math.random() * 80) + '%'
+      ghidorah.stop().animate({ top, left }, 2000, function () {
+        move(ghidorah)
+      })
+    }
+
+    function move(godzilla) {
+      const top = Math.round(Math.random() * 80) + '%'
+      const left = Math.round(Math.random() * 80) + '%'
+      godzilla.stop().animate({ top, left }, 2000, function () {
+        move(godzilla)
+      })
+    }
+
+    function move(mothra) {
+      const top = Math.round(Math.random() * 80) + '%'
+      const left = Math.round(Math.random() * 80) + '%'
+      mothra.stop().animate({ top, left }, 2000, function () {
+        move(mothra)
+      })
+    }
+
+    $('#btn-start').click(function () {
+      // 停用按鈕
+      $(this).attr('disabled', true)
+
+      score = 0
+      $('#text-score').text(score)
+      countdown = 10
+      $('#text-time').text(countdown)
+
+      // 開始遊戲
+      timer = setInterval(function () {
+        // 倒數
+        countdown--
+        $('#text-time').text(countdown)
+
+        const random = Math.round(Math.random() * 10)
+        // 基多拉出現的機率
+        if (random > 3) {
+          const top = Math.round(Math.random() * 80) + '%'
+          const left = Math.round(Math.random() * 80) + '%'
+          const ghidorah = $(`<img src="./img/ghidorah.png" class="ghidorah" style="top: ${top}; left: ${left}" >`)
+          $('#screen').append(ghidorah)
+          move(ghidorah)
+        }
+        // 哥吉拉出現的機率
+        if (random > 5) {
+          const top = Math.round(Math.random() * 80) + '%'
+          const left = Math.round(Math.random() * 80) + '%'
+          const godzilla = $(`<img src="./img/godzilla.png" class="godzilla" style="top: ${top}; left: ${left}" >`)
+          $('#screen').append(godzilla)
+          move(godzilla)
+        }
+        // 摩斯拉出現的機率
+        if (random > 7) {
+          const top = Math.round(Math.random() * 80) + '%'
+          const left = Math.round(Math.random() * 80) + '%'
+          const mothra = $(`<img src="./img/mothra.png" class="mothra" style="top: ${top}; left: ${left}" >`)
+          $('#screen').append(mothra)
+          move(mothra)
+        }
+        if (countdown <= 0) {
+          clearInterval(timer)
+          // 清空遊戲區域
+          $('#screen img').remove()
+          // 重新啟用遊戲按鈕
+          $('#btn-start').attr('disabled', false)
+          Swal.fire ({
+            title:'遊戲結束',
+            text:`你總共得到${ score } 分`,
+            imageUrl:"./img/bye.png"
+          })
+        }
+      }, 1000)
+    })
+
+    $('#screen').on('click', '.ghidorah', function () {
+      $(this).attr('src', './img/kevin.png')
+      $(this).removeClass('ghidorah').addClass('kevin')
+      $('.kevin').stop()
+      score++
+      $('#text-score').text(score)
+    })
+
+    $('#screen').on('click', '.godzilla', function () {
+      $(this).attr('src', './img/bone.png')
+      $(this).removeClass('godzilla').addClass('bone')
+      $(this).stop()
+      score--
+      $('#text-score').text(score)
+    })
+
+    $('#screen').on('click', '.mothra', function () {
+      $(this).attr('src', './img/blue-fire.png')
+      $(this).removeClass('mothra').addClass('blue-fire')
+      $(this).stop()
+      score = score - 2
+      $('#text-score').text(score)
+    })
+
+  </script>
+</body>
+
+</html>
